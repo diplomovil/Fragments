@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentResultListener
 import com.amaurypm.fragments.databinding.FragmentAnimesBinding
 import com.amaurypm.fragments.model.Anime
 import com.amaurypm.fragments.view.adapters.AnimesAdapter
@@ -56,6 +57,28 @@ class AnimesFragment : Fragment() {
             ).show()
 
         }
+
+        parentFragmentManager.setFragmentResultListener(
+            "datos",
+            this,
+            FragmentResultListener { requestKey, result ->
+                val game = result.getString("dato1", "")
+                val nombre = result.getString("nombre", "")
+                val sesion = result.getInt("sesion", 0)
+
+                if (game.isNotEmpty()) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "El juego recibido del fragment Games es: $game",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Toast.makeText(
+                        requireActivity(),
+                        "El nombre recibido es $nombre y la sesión $sesion",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
 
     }
 
